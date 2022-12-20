@@ -14,7 +14,7 @@ class DrinkListView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-# create a drink
+# # create a drink
 class DrinkCreateView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
@@ -23,6 +23,14 @@ class DrinkCreateView(generics.CreateAPIView):
             serializer_class.save()
             return Response(serializer_class.data, status=status.HTTP_201_CREATED)
         return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class DrinkCreateView(generics.CreateAPIView):
+#     queryset = DrinkModel.objects.all()
+#     serializer_class = DrinkSerializer
+#
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request)
 
 
 # get specific drink details

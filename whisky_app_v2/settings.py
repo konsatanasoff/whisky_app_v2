@@ -1,8 +1,6 @@
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 SECRET_KEY = 'django-insecure-=&ufhi3navz-2s_#)mbw$*-i$#tjcqc-jgpsahg0xb@392nxa-'
 
@@ -10,7 +8,6 @@ SECRET_KEY = 'django-insecure-=&ufhi3navz-2s_#)mbw$*-i$#tjcqc-jgpsahg0xb@392nxa-
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,7 +20,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'users_api',
     'drinks_api',
-    'common_api'
+    'common_api',
+    'pytest',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +56,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'whisky_app_v2.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -68,7 +66,6 @@ DATABASES = {
         'PORT': '5433',
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -95,6 +92,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static",]
+STATICFILES_DIRS = [BASE_DIR / "static", ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

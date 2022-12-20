@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,17 +16,27 @@ class UserListView(generics.ListAPIView):
 
 
 class RegisterView(generics.CreateAPIView):
+    permission_classes = (permissions.AllowAny,)
     queryset = get_user_model().objects.all()
     serializer_class = RegisterSerializer
 
 
 class LoginView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
+        serializer = LoginSerializer(data=self.request.data, context={'request': self.request})
         serializer.is_valid(raise_exception=True)
-        user = authenticate(**serializer.validated_data)
-        if user:
-            login(request, user)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        user = serializer.validated_data['user']
+        login(request, user)
+        return Response(None, status=status.HTTP_202_ACCEPTED)
+
+
+class UserDetailAPI(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        user = UserModel.objects.get(id=request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
