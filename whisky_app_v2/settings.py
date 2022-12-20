@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'users_api',
+    'drinks_api',
 ]
 
 MIDDLEWARE = [

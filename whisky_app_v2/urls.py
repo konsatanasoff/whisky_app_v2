@@ -5,5 +5,6 @@ import users_api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('users_api.urls'))
+    path('users/', include('users_api.urls')),
+    path('', include('drinks_api.urls')),
 ]
