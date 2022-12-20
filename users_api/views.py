@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, get_user_model
-from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
