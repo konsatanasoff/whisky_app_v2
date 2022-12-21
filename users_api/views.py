@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from rest_framework import generics, status, permissions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
@@ -24,7 +24,9 @@ class LoginView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        serializer = LoginSerializer(data=self.request.data, context={'request': self.request})
+        serializer = LoginSerializer(data=self.request.data,
+                                     context={'request': self.request})
+
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         login(request, user)
@@ -36,6 +38,12 @@ class UserDetailAPI(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
-        user = UserModel.objects.get(id=request.user.id)
+        user = UserModel.objects.all()
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
+class LogoutView(APIView):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return Response({"success": "Successfully logged out."}, status=200)
